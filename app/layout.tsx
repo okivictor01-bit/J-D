@@ -4,6 +4,18 @@ import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
+export const metadata = {
+  title: 'J&D Babies Store',
+  description: 'Find comfort, care, and quality at J&D Babies Store',
+  manifest: '/manifest.json',
+  themeColor: '#ffffff',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'J&D Babies Store',
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -12,8 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>J&D Babies Store</title>
-        <meta name="description" content="Find comfort, care, and quality at J&D Babies Store" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <meta name="theme-color" content="#ffffff" />
         <Script src="https://js.paystack.co/v1/inline.js" strategy="beforeInteractive" />
       </head>
       <body className={inter.className} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', margin: 0, backgroundColor: '#ffffff' }}>
