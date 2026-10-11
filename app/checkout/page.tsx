@@ -67,15 +67,27 @@ export default function Checkout() {
     setTimeout(() => {
       const PaystackPop = (window as any).PaystackPop;
       const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+      const splitCode = process.env.NEXT_PUBLIC_PAYSTACK_SPLIT_CODE;
+
       if (!PaystackPop) { alert('Payment system not loaded. Refresh.'); setLoading(false); return; }
+      if (!publicKey) { alert('Paystack Public Key is missing in Vercel settings.'); setLoading(false); return; }
+
       try {
         const handler = PaystackPop.setup({
           key: publicKey,
           email: formData.email,
           amount: totalAmount * 100,
           currency: 'NGN',
-          ref: 'GG_' + Math.floor(Math.random() * 1000000000 + 1),
-          metadata: { name: formData.name, phone: formData.phone, address: formData.address },
+          ref: 'JDB_' + Math.floor(Math.random() * 1000000000 + 1),
+          // --- SUBACCOUNT SPLIT SETTINGS ---
+          split_code: splitCode, 
+          bearer: 'subaccount', // This forces the subaccount to pay the Paystack fees
+          // ---------------------------------
+          metadata: { 
+            name: formData.name, 
+            phone: formData.phone, 
+            address: formData.address 
+          },
           callback: function(response: any) {
             saveOrderToDatabase(response.reference).then((success) => {
               if (success) alert('✅ Payment successful and order saved!');
