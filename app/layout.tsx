@@ -61,6 +61,7 @@ export default function RootLayout({
                 <Link href="/about" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '0.9rem' }}>About Us</Link>
                 <Link href="/contact" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '0.9rem' }}>Contact</Link>
                 <Link href="/faq" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '0.9rem' }}>FAQ</Link>
+                <Link href="/track-order" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '0.9rem' }}>Track Order</Link>
               </div>
             </div>
 
