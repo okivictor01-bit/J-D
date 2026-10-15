@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { supabase } from '../../lib/supabaseClient';
 
 export default function Checkout() {
@@ -79,10 +80,8 @@ export default function Checkout() {
           amount: totalAmount * 100,
           currency: 'NGN',
           ref: 'JDB_' + Math.floor(Math.random() * 1000000000 + 1),
-          // --- SUBACCOUNT SPLIT SETTINGS ---
           split_code: splitCode, 
-          bearer: 'subaccount', // This forces the subaccount to pay the Paystack fees
-          // ---------------------------------
+          bearer: 'subaccount', 
           metadata: { 
             name: formData.name, 
             phone: formData.phone, 
@@ -115,7 +114,15 @@ export default function Checkout() {
           <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
           <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Thank You!</h1>
           <p style={{ color: '#6b7280', marginBottom: '2rem' }}>Your order has been received.</p>
-          <button onClick={() => window.location.href = '/'} style={{ padding: '1rem 2rem', backgroundColor: '#16a34a', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer' }}>Continue Shopping</button>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
+            <Link href="/" style={{ padding: '1rem 2rem', backgroundColor: '#16a34a', color: 'white', textDecoration: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '1.1rem' }}>
+              Continue Shopping
+            </Link>
+            <Link href="/track-order" style={{ padding: '1rem 2rem', backgroundColor: '#2563eb', color: 'white', textDecoration: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '1.1rem' }}>
+              Track My Order
+            </Link>
+          </div>
         </div>
       </main>
     );
