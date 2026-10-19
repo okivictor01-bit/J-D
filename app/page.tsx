@@ -103,9 +103,14 @@ export default function Home() {
               const isOutOfStock = product.stock === 0 || product.stock === null;
               const discount = product.original_price ? calculateDiscount(product.original_price, product.price) : null;
               return (
-                <div key={product.id} style={{ border: '1px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
-                  <div style={{ position: 'relative' }}>
-                    <img src={product.image_url || 'https://via.placeholder.com/400x300'} alt={product.name} style={{ width: '100%', height: '250px', objectFit: 'cover' }} />
+                <div key={product.id} style={{ border: '1px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', backgroundColor: 'white' }}>
+                  <div style={{ position: 'relative', backgroundColor: '#f9fafb' }}>
+                    {/* UPDATED IMAGE STYLE: Shows full image without cropping */}
+                    <img 
+                      src={product.image_url || 'https://via.placeholder.com/400x300'} 
+                      alt={product.name} 
+                      style={{ width: '100%', height: 'auto', maxHeight: '400px', objectFit: 'contain', display: 'block' }} 
+                    />
                     {discount && discount > 0 && (
                       <div style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: '#dc2626', color: 'white', padding: '0.4rem 0.8rem', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.9rem' }}>{discount}% OFF</div>
                     )}
