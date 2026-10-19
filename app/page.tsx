@@ -19,6 +19,7 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [cartCount, setCartCount] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // State for the zoom popup
 
   useEffect(() => {
     fetchProducts();
@@ -64,7 +65,7 @@ export default function Home() {
 
   return (
     <main>
-      {/* Top Navigation Bar with Cart and Track Order */}
+      {/* Top Navigation Bar */}
       <nav style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10, padding: '1rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', alignItems: 'center' }}>
         <Link href="/track-order" style={{ backgroundColor: 'rgba(255,255,255,0.9)', color: '#1a1a1a', padding: '0.75rem 1rem', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
           📦 Track Order
@@ -105,11 +106,12 @@ export default function Home() {
               return (
                 <div key={product.id} style={{ border: '1px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', backgroundColor: 'white' }}>
                   <div style={{ position: 'relative', backgroundColor: '#f9fafb' }}>
-                    {/* UPDATED IMAGE STYLE: Shows full image without cropping */}
+                    {/* CLICKABLE IMAGE FOR ZOOM */}
                     <img 
                       src={product.image_url || 'https://via.placeholder.com/400x300'} 
                       alt={product.name} 
-                      style={{ width: '100%', height: 'auto', maxHeight: '400px', objectFit: 'contain', display: 'block' }} 
+                      onClick={() => setSelectedImage(product.image_url)}
+                      style={{ width: '100%', height: 'auto', maxHeight: '400px', objectFit: 'contain', display: 'block', cursor: 'zoom-in' }} 
                     />
                     {discount && discount > 0 && (
                       <div style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: '#dc2626', color: 'white', padding: '0.4rem 0.8rem', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.9rem' }}>{discount}% OFF</div>
@@ -142,6 +144,36 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* FULL SCREEN IMAGE ZOOM POPUP (MODAL) */}
+      {selectedImage && (
+        <div 
+          onClick={() => setSelectedImage(null)} 
+          style={{ 
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+            backgroundColor: 'rgba(0,0,0,0.9)', zIndex: 2000, 
+            display: 'flex', alignItems: 'center', justifyContent: 'center', 
+            padding: '1rem', cursor: 'zoom-out' 
+          }}
+        >
+          <img 
+            src={selectedImage} 
+            alt="Full size view" 
+            style={{ maxWidth: '100%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '8px' }} 
+          />
+          <button 
+            onClick={() => setSelectedImage(null)}
+            style={{ 
+              position: 'absolute', top: '20px', right: '20px', 
+              color: 'white', fontSize: '2.5rem', background: 'none', 
+              border: 'none', cursor: 'pointer', fontWeight: 'bold' 
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
     </main>
   );
 }
